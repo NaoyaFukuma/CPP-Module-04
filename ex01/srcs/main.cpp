@@ -6,7 +6,7 @@
 /*   By: nfukuma <nfukuma@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/23 15:38:09 by nfukuma           #+#    #+#             */
-/*   Updated: 2022/12/24 22:24:14 by nfukuma          ###   ########.fr       */
+/*   Updated: 2022/12/25 00:53:25 by nfukuma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,64 +15,92 @@
 #include "WrongCat.hpp"
 #include <iostream>
 
-int	main()
+int	main(void)
 {
-	std::cout << "\e[33m<<<  I'll start checking Animal class!   >>>  \e[m" << std::endl;
-
-	try
+	std::cout << "test 1" << std::endl;
 	{
-		Animal *meta = new Animal();
-		Animal *j = new Dog();
-		Animal *i = new Cat();
+		const Animal *j = new Dog();
+		const Animal *i = new Cat();
+
+		delete j;
+		delete i;
 	}
-	catch(const std::bad_alloc& e)
+	std::cout << "\ntest 2" << std::endl;
 	{
-		std::cerr << e.what() << std::endl;
-		std::exit(EXIT_FAILURE);
-	}
-	std::cout << "j Type: " << j->getType() << " " << std::endl;
-	std::cout << "i Type: " << i->getType() << " " << std::endl;
-	i->makeSound();
-	j->makeSound();
-	meta->makeSound();
-	delete meta;
-	delete j;
-	delete i;
+		const Animal *k[10];
 
+		try
+		{
+			for (int i = 0; i < 5; i++)
+				k[i] = new Dog();
+			for (int i = 5; i < 10; i++)
+				k[i] = new Cat();
+		}
+		catch (const std::bad_alloc &b)
+		{
+			std::cerr << b.what() << std::endl;
+			std::exit(EXIT_FAILURE);
+		}
+		for (int i = 0; i < 10; i++)
+			delete k[i];
+	}
+	std::cout << "\ntest 3" << std::endl;
 	{
-		Animal tmp;
-		Dog tmp_dog;
-		Cat tmp_cat;
-		Animal &meta_ref = tmp;
-		Animal &j_ref = dynamic_cast<Animal&>(tmp_dog);
-		Animal &i_ref = dynamic_cast<Animal&>(tmp_cat);
+		Dog *dog1;
 
-		std::cout << "\nj_ref Type: " << j->getType() << " " << std::endl;
-		std::cout << "i_i_ref Type: " << i->getType() << " " << std::endl;
-		i_ref.makeSound();
-		j_ref.makeSound();
-		meta_ref.makeSound();
+		try
+		{
+			dog1 = new Dog();
+		}
+		catch (const std::bad_alloc &b)
+		{
+			std::cerr << b.what() << std::endl;
+			std::exit(EXIT_FAILURE);
+		}
+
+		Dog dog2(*dog1);
+		Dog dog3;
+
+		dog3 = *dog1;
+		delete dog1;
+		dog2.set_idea(0, "world peace");
+		std::string tmp[10] = {"world peace", "world peace", "world peace", "world peace", "world peace", "world peace", "world peace", "world peace", "world peace", "world peace"};
+		dog3.set_ideas(0, 10, tmp);
+
+		std::cout << dog2.get_idea(0) << std::endl;
+		for (int i = 0; i < 11; ++i)
+		{
+			std::cout << dog3.get_idea(i) << std::endl;
+		}
+
 	}
-
-	std::cout << std::endl;
-	std::cout << "\e[31m<<<  I'll start checking Wrong Animal class!   >>>  \e[m" << std::endl;
-
-	try
+	std::cout << "\ntest 4" << std::endl;
 	{
-		const WrongAnimal *wrong_meta = new WrongAnimal();
-		const WrongAnimal *wrong_i = new WrongCat();
+		Cat *cat1;
+		try
+		{
+			cat1 = new Cat();
+		}
+		catch (const std::bad_alloc &b)
+		{
+			std::cerr << b.what() << std::endl;
+			std::exit(EXIT_FAILURE);
+		}
+
+		Cat cat2 = *cat1;
+		Cat cat3;
+
+		cat3 = *cat1;
+		delete cat1;
+		std::cout << cat2.get_idea(0) << std::endl;
+		std::cout << cat3.get_idea(0) << std::endl;
 	}
-	catch(const std::bad_alloc& e)
+	std::cout << "\ntest 5" << std::endl;
 	{
-		std::cerr << e.what() << std::endl;
-		std::exit(EXIT_FAILURE);
+		Dog basic;
+		{
+			Dog tmp = basic;
+		}
 	}
-
-	std::cout << "Wrong_meta Type: " << wrong_meta->getType() << " " << std::endl;
-	std::cout << "Wrong_i Type: " << wrong_i->getType() << " " << std::endl;
-	wrong_meta->makeSound();
-	wrong_i->makeSound();
-
-	delete wrong_meta;
-	delete wrong_i;
+	return (0);
 }

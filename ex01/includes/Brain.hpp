@@ -1,37 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   Cat.hpp                                            :+:      :+:    :+:   */
+/*   Brain.hpp                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nfukuma <nfukuma@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/12/23 15:58:04 by nfukuma           #+#    #+#             */
-/*   Updated: 2022/12/25 00:48:42 by nfukuma          ###   ########.fr       */
+/*   Created: 2022/12/24 23:04:03 by nfukuma           #+#    #+#             */
+/*   Updated: 2022/12/25 00:25:41 by nfukuma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef CAT_HPP
-# define CAT_HPP
+#ifndef BRAIN_HPP
+# define BRAIN_HPP
 
-# include "Animal.hpp"
-# include "Brain.hpp"
+# include <string>
+#include "BadPosi.hpp"
 
-class Cat : public Animal
+class Brain
 {
-  private:
-	Brain *brain_;
+  protected:
+	std::string ideas_[100];
 
   public:
-	Cat();
-	Cat(const std::string &_type);
-	Cat(const Cat &src);
-	Cat &operator=(const Cat &rhs);
-	virtual ~Cat();
+	Brain();
+	Brain(Brain &_Brain);
+	Brain &operator=(Brain &_Brain);
+	virtual ~Brain();
 
-	virtual void makeSound() const;
-	std::string get_idea(const int i);
 	void set_idea(const int i, const std::string &_ideas);
 	void set_ideas(const int begin, const int size, const std::string *_ideas);
+	std::string get_idea(const int i) const;
+	void dup_ideas(const Brain &_brain);
 };
 
 #endif
