@@ -1,11 +1,11 @@
-NAME = Account
+NAME = Polymorphism
 
 
 CXX = c++
 CXXFLAGS = -std=c++98 -Wall -Wextra -Werror -MMD -MP
 CPPFLAGS = -Iincludes
 
-SRCS = tests.cpp Account.cpp
+SRCS = A_Animal.cpp BadPosi.cpp Brain.cpp Cat.cpp Dog.cpp WrongAnimal.cpp WrongCat.cpp main.cpp
 VPATH = srcs
 
 OBJSDIR = objs
